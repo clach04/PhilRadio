@@ -1,7 +1,5 @@
-//#include <Arduino.h>
 //Initialize Audio first to prevent bootloop
 #include "Audio.h"
-//#include "driver/i2s.h"
 Audio audio(true, I2S_DAC_CHANNEL_LEFT_EN);
 
 
@@ -14,7 +12,7 @@ Audio audio(true, I2S_DAC_CHANNEL_LEFT_EN);
 #include <WiFi.h>
 #include "ESPAsyncWebServer.h"
 #include <SPIFFS.h>
-//radio Stations
+
 struct RadioStation {
   String name;
   String url;
@@ -25,8 +23,6 @@ AsyncWebServer server(80);
 #include <TFT_eSPI.h>
 TFT_eSPI tft = TFT_eSPI();
 
-// The CYD touch uses some non default
-// SPI pins
 
 #define orientation PORTRAIT
 
@@ -62,7 +58,6 @@ static int volume = 90;
 static int seconds = 0;
 /*LVGL draw into this buffer, 1/10 screen size usually works well. The size is in bytes*/
 #define DRAW_BUF_SIZE (TFT_HOR_RES * TFT_VER_RES / 10 * (LV_COLOR_DEPTH / 8))
-//#define DRAW_BUF_SIZE (TFT_HOR_RES * TFT_VER_RES * 2)
 
 #if LV_USE_LOG != 0
 void my_print(lv_log_level_t level, const char *buf) {
@@ -130,14 +125,7 @@ lv_obj_t *keyboard_text_area;
 
 //Status variable
 lv_obj_t *wifiStatusLabel;  // Global variable for the WiFi status label
-/*
 
-const RadioStation stations[] = {
-  { "Disco Ball 70's-80's L.A.", "http://sc8.1.fm:8100/" },
-  { "Radio Paradise", "http://stream.radioparadise.com/mp3-192" },
-  { "Ego FM", "http://www.egofm.de/stream/128kb.m3u" }
-
-};*/
 
 RadioStation *stations = nullptr;  // Global pointer for radio stations array
 size_t stationCount = 0;           // Number of stations
@@ -380,7 +368,6 @@ static void create_tabs(void) {
     const char *name = stations[i].name.c_str();  // Convert String to const char*
     const char *url = stations[i].url.c_str();    // Convert String to const char*
 
-    //lv_obj_set_size(radiolist, 290, 200);
     lv_obj_t *btn;
     btn = lv_button_create(radiolist);
     lv_obj_set_width(btn, lv_pct(100));
@@ -456,7 +443,6 @@ void setup() {
   lv_tick_set_cb(my_tick_get_cb);
   draw_buf = new uint8_t[DRAW_BUF_SIZE];
   lv_display_t *disp;
-  //disp = lv_tft_espi_create(TFT_HOR_RES, TFT_VER_RES, draw_buf, DRAW_BUF_SIZE);
   disp = lv_tft_espi_create(TFT_HOR_RES, TFT_VER_RES, draw_buf, DRAW_BUF_SIZE);
   // Start the tft display
   tft.init();
@@ -499,9 +485,9 @@ void setup() {
 
 
 
-  wifiStatusLabel = lv_label_create(lv_scr_act());  // Use lv_scr_act() to create it on the active (main) screen
+  wifiStatusLabel = lv_label_create(lv_scr_act()); 
   lv_label_set_text(wifiStatusLabel, "Not connected");
-  lv_obj_align(wifiStatusLabel, LV_ALIGN_TOP_MID, 0, 0);  // Adjust positioning as needed
+  lv_obj_align(wifiStatusLabel, LV_ALIGN_TOP_MID, 0, 0);  
 
   //clearPreferences();
 
@@ -603,17 +589,13 @@ void loop() {
       ledcAnalogWrite(LEDC_CHANNEL_0, 0);
     }
   }
-  //SET AUDIO VOL ACCORDING TO POTI
-  //potValue = analogRead(POTI_PIN);
-  //valculate from potValue to Volume.
-  //volume = map(potValue, 0, 4095, 255, 0); // Map it to the range 0-255
-  //audio.setVolume(volume);
+
 }
 
 void audio_showstreamtitle(const char *info) {
   Serial.print(F("streamtitle "));
   Serial.println(info);
-  //printTitle(info);
+
 }
 
 
