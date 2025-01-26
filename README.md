@@ -21,6 +21,7 @@ A DIY internet radio project using the ESP32 Cheap Yellow Display, transforming 
 - Old Philips radio (or similar)
 - 10kΩ potentiometer
 - External USB power connection
+- 10kΩ Resistor to [improve the audio quality](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Mods/README.md).
 
 ## Hardware Modifications
 ### Audio Quality Improvement
