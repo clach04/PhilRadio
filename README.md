@@ -24,7 +24,7 @@ A DIY internet radio project using the ESP32 Cheap Yellow Display, transforming 
 
 ## Hardware Modifications
 ### Audio Quality Improvement
-As detailed in the original project mod, add a resistor to enhance audio output quality.
+As detailed in the original project mod, add a resistor to enhance audio output quality, as described in [this project](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/Mods/README.md).
 
 ## Software Dependencies
 
@@ -51,7 +51,7 @@ As detailed in the original project mod, add a resistor to enhance audio output 
 5. connect to the webserver from a browser and add radio stations
 
 ## Web Interface
-Access the web configuration at http://<device-ip> to:
+Access the web configuration at http://device-ip to:
 - View current radio stations
 - Add/remove stations
 - Manage network settings
@@ -59,4 +59,4 @@ Access the web configuration at http://<device-ip> to:
 ![WiFi Radio Webserver](https://github.com/mogrikid/PhilRadio/blob/Main/images/server.png)
 
 Credits
-Inspired by and building upon the ESP32 Cheap Yellow Display project.
+Inspired by and building upon the [ESP32 Cheap Yellow Display project](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display).
