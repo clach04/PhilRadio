@@ -55,9 +55,11 @@ As detailed in the original project mod, add a resistor to enhance audio output 
 Access the web configuration at http://device-ip to:
 - View current radio stations
 - Add/remove stations
-- Manage network settings
 
 ![WiFi Radio Webserver](https://github.com/mogrikid/PhilRadio/blob/Main/images/server.png)
 
 Credits
 Inspired by and building upon the [ESP32 Cheap Yellow Display project](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display).
+
+## Final Note
+The code is far from perfect, but the UI works, the radio plays flawless for hours and maybe others can build upon it. 
