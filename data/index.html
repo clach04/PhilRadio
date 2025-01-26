@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Radio Station List</title>
+        <style>
+            /* Reset and base styling */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #f4f4f9;
+            }
+            h1 {
+                color: #333;
+                margin-top: 20px;
+            }
+            /* Table styling */
+            table {
+                width: 80%;
+                max-width: 800px;
+                border-collapse: collapse;
+                margin: 20px 0;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: white;
+            }
+            th,
+            td {
+                padding: 12px;
+                border: 1px solid #ddd;
+                text-align: left;
+            }
+            th {
+                background-color: #007bff;
+                color: white;
+            }
+            td input[type="text"] {
+                width: 100%;
+                max-width: 250px; /* Adjust as needed */
+                padding: 8px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            /* Button styling */
+            button {
+                padding: 10px 15px;
+                margin: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                border-radius: 4px;
+                border: none;
+            }
+            button:hover {
+                opacity: 0.9;
+            }
+            button:active {
+                transform: scale(0.98);
+            }
+            button.add {
+                background-color: #28a745;
+                color: white;
+            }
+            button.save {
+                background-color: #007bff;
+                color: white;
+            }
+            button.delete {
+                background-color: #dc3545;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Radio Stations</h1>
+        <table id="stationTable">
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+        <button class="add" onclick="addStation()">Add Station</button>
+        <button class="save" onclick="saveStations()">Save Changes</button>
+
+        <script>
+            async function loadStations() {
+                const response = await fetch("/stations");
+                const stations = await response.json();
+                const table = document.getElementById("stationTable");
+
+                stations.forEach((station, index) => {
+                    addRow(station.name, station.url, index);
+                });
+            }
+
+            function addRow(name = "", url = "", index = -1) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td><input type="text" value="${name}" /></td>
+                    <td><input type="text" value="${url}" /></td>
+                    <td>
+                        <button class="delete" onclick="deleteStation(this)">Delete</button>
+                    </td>`;
+                row.dataset.index = index;
+                document.getElementById("stationTable").appendChild(row);
+            }
+
+            function addStation() {
+                addRow();
+            }
+
+            function deleteStation(button) {
+                button.closest("tr").remove();
+            }
+
+            async function saveStations() {
+                const rows = document.querySelectorAll("#stationTable tr");
+                const stations = [];
+                rows.forEach((row) => {
+                    const inputs = row.querySelectorAll("input");
+                    if (inputs.length > 0) {
+                        const name = inputs[0].value;
+                        const url = inputs[1].value;
+                        stations.push({ name, url });
+                    }
+                });
+
+                await fetch("/save_stations", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(stations),
+                });
+
+                alert(
+                    "Stations saved successfully! The ESP will reset in 2 seconds.",
+                );
+                setTimeout(() => {
+                    location.reload(); // Simulate the ESP reset by reloading the page
+                }, 2000);
+            }
+
+            loadStations();
+        </script>
+    </body>
+</html>
